@@ -3,6 +3,7 @@ package com.saimon.tuBank.entity.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Min;
 import java.util.Objects;
 
 
@@ -11,7 +12,10 @@ public class BankUser {
 
     @Id
     private String id;
+    private String login;
+    private String password;
     private String name;
+    @Min(18)
     private Integer old;
     private GENDER gender;
     private SCORE score;
@@ -20,9 +24,12 @@ public class BankUser {
 
     }
 
-    public BankUser(String name, Integer old) {
+    public BankUser(String login, String password, String name, Integer old, GENDER gender) {
+        this.login = login;
+        this.password = password;
         this.name = name;
         this.old = old;
+        this.gender = gender;
     }
 
     public String getId() {
@@ -43,6 +50,22 @@ public class BankUser {
 
     public Integer getOld() {
         return old;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setOld(Integer old) {
@@ -76,16 +99,12 @@ public class BankUser {
         if (this == o) return true;
         if (!(o instanceof BankUser)) return false;
         BankUser bankUser = (BankUser) o;
-        return Objects.equals(getId(), bankUser.getId()) &&
-                Objects.equals(getName(), bankUser.getName()) &&
-                Objects.equals(getOld(), bankUser.getOld()) &&
-                getGender() == bankUser.getGender() &&
-                getScore() == bankUser.getScore();
+        return Objects.equals(getId(), bankUser.getId()) && Objects.equals(getLogin(), bankUser.getLogin()) && Objects.equals(getPassword(), bankUser.getPassword()) && Objects.equals(getName(), bankUser.getName()) && Objects.equals(getOld(), bankUser.getOld()) && getGender() == bankUser.getGender() && getScore() == bankUser.getScore();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getOld(), getGender(), getScore());
+        return Objects.hash(getId(), getLogin(), getPassword(), getName(), getOld(), getGender(), getScore());
     }
 
     public enum SCORE {

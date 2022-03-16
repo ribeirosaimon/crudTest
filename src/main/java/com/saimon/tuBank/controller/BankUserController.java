@@ -1,11 +1,11 @@
 package com.saimon.tuBank.controller;
 
+import com.saimon.tuBank.dto.BankUserDTO;
 import com.saimon.tuBank.entity.model.BankUser;
 import com.saimon.tuBank.service.BankUserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/bankuser")
@@ -20,5 +20,10 @@ public class BankUserController {
     @GetMapping("/{id}")
     public BankUser getUser(@PathVariable String id) throws Exception {
         return bankUserService.getUser(id);
+    }
+
+    @PostMapping("/add")
+    public BankUser saveUser(@RequestBody @Valid BankUserDTO bankUserDTO) throws Exception {
+        return bankUserService.saveUser(bankUserDTO);
     }
 }
