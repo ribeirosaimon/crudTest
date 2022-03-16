@@ -36,14 +36,6 @@ public class BankUserTest {
     @MockBean
     BankUserService bankUserService;
 
-    public BankUser createUser() {
-        BankUser bankUser = new BankUser(BANKUSER_NAME, BANKUSER_OLD);
-        bankUser.setId(BANKUSER_ID);
-        bankUser.setGender(BANKUSER_GENDER);
-        bankUser.setScore(BANKUSER_SCORE);
-        return bankUser;
-    }
-
     @Test
     @DisplayName("BankUser Controller Test")
     public void getBankUserTest() throws Exception {
@@ -58,8 +50,6 @@ public class BankUserTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value(BANKUSER_ID))
                 .andExpect(MockMvcResultMatchers.jsonPath("name").value(BANKUSER_NAME))
-                .andExpect(MockMvcResultMatchers.jsonPath("old").value(BANKUSER_OLD))
-                .andExpect(MockMvcResultMatchers.jsonPath("Gender").value(BANKUSER_GENDER))
-                .andExpect(MockMvcResultMatchers.jsonPath("Score").value(BANKUSER_SCORE));
+                .andExpect(MockMvcResultMatchers.jsonPath("old").value(BANKUSER_OLD));
     }
 }
