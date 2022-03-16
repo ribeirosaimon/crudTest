@@ -98,4 +98,33 @@ public class BankUserTest {
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
+
+    @Test
+    @DisplayName("Update BankUser")
+    public void putUserBankTest() throws Exception {
+
+        BankUser user = SetUpTest.createUser();
+        Integer changeOldUser = 20;
+        user.setOld(changeOldUser);
+
+        BankUserDTO changedDto = new BankUserDTO();
+        changedDto.setOld(changeOldUser);
+
+        String json = new ObjectMapper().writeValueAsString(changedDto);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .put(SetUpTest.BANKUSER_API.concat(SetUpTest.BANKUSER_ID))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("id").value(SetUpTest.BANKUSER_ID))
+                .andExpect(MockMvcResultMatchers.jsonPath("login").value(SetUpTest.BANKUSER_LOGIN))
+                .andExpect(MockMvcResultMatchers.jsonPath("password").value(SetUpTest.BANKUSER_PASSWORD))
+                .andExpect(MockMvcResultMatchers.jsonPath("name").value(SetUpTest.BANKUSER_NAME))
+                .andExpect(MockMvcResultMatchers.jsonPath("old").value(changeOldUser));
+    }
 }

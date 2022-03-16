@@ -26,4 +26,9 @@ public class BankUserController {
     public BankUser saveUser(@RequestBody @Valid BankUserDTO bankUserDTO) throws Exception {
         return bankUserService.saveUser(bankUserDTO);
     }
+
+    @PutMapping("/{id}")
+    public BankUser updateUser(@PathVariable @Valid BankUserDTO bankUserDTO) throws Exception {
+        return bankUserService.updateUser(bankUserDTO);
+    }
 }
