@@ -1,11 +1,11 @@
 package com.saimon.tuBank.controllerTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.saimon.tuBank.dto.BankInformationsDTO;
 import com.saimon.tuBank.dto.BankUserDTO;
 import com.saimon.tuBank.entity.model.BankUser;
 import com.saimon.tuBank.service.BankUserService;
 import com.saimon.tuBank.setUp.SetUpTest;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -102,18 +102,26 @@ public class BankUserTest {
     @Test
     @DisplayName("Update BankUser")
     public void putUserBankTest() throws Exception {
+        Integer changeOldUser = 20;
 
         BankUser user = SetUpTest.createUser();
-        Integer changeOldUser = 20;
         user.setOld(changeOldUser);
 
-        BankUserDTO changedDto = new BankUserDTO();
-        changedDto.setOld(changeOldUser);
+        BankUserDTO createDto = SetUpTest.createDTO();
+        createDto.setOld(changeOldUser);
 
-        String json = new ObjectMapper().writeValueAsString(changedDto);
+        BankInformationsDTO informationsDTO = SetUpTest.createInformationsDTO();
+        informationsDTO.setOld(changeOldUser);
+
+
+        String json = new ObjectMapper().writeValueAsString(createDto);
+
+        BDDMockito
+                .given(bankUserService.updateUser(SetUpTest.BANKUSER_ID, createDto))
+                .willReturn(user);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .put(SetUpTest.BANKUSER_API.concat(SetUpTest.BANKUSER_ID))
+                .put(SetUpTest.BANKUSER_API.concat("/") + SetUpTest.BANKUSER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(json);
@@ -121,10 +129,7 @@ public class BankUserTest {
         mvc
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("id").value(SetUpTest.BANKUSER_ID))
-                .andExpect(MockMvcResultMatchers.jsonPath("login").value(SetUpTest.BANKUSER_LOGIN))
-                .andExpect(MockMvcResultMatchers.jsonPath("password").value(SetUpTest.BANKUSER_PASSWORD))
                 .andExpect(MockMvcResultMatchers.jsonPath("name").value(SetUpTest.BANKUSER_NAME))
-                .andExpect(MockMvcResultMatchers.jsonPath("old").value(changeOldUser));
+                .andExpect(MockMvcResultMatchers.jsonPath("old").value(SetUpTest.BANKUSER_OLD));
     }
 }

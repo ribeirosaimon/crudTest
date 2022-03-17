@@ -6,6 +6,8 @@ import com.saimon.tuBank.entity.repository.BankUserRepository;
 import com.saimon.tuBank.service.BankUserService;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class BankUserServiceImpl implements BankUserService {
 
@@ -28,6 +30,7 @@ public class BankUserServiceImpl implements BankUserService {
                 bankUserDTO.getOld(),
                 bankUserDTO.getGender());
         bankUser.setGender(bankUserDTO.getGender());
+        bankUser.setCreatedAt(new Date());
 
         if (bankUserDTO.getOld() > 50){
             bankUser.setScore(BankUser.SCORE.GOOD);
@@ -36,5 +39,16 @@ public class BankUserServiceImpl implements BankUserService {
         }
 
         return bankUserRepository.save(bankUser);
+    }
+
+    @Override
+    public BankUser updateUser(String id, BankUserDTO bankUserDTO) throws Exception {
+        BankUser user = this.getUser(id);
+        user.setName(bankUserDTO.getName());
+        user.setGender(bankUserDTO.getGender());
+        user.setOld(bankUserDTO.getOld());
+        user.setUpdatedAt(new Date());
+
+        return bankUserRepository.save(user);
     }
 }

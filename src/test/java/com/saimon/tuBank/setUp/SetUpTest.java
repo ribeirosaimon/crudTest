@@ -1,12 +1,14 @@
 package com.saimon.tuBank.setUp;
 
+import com.saimon.tuBank.dto.BankInformationsDTO;
 import com.saimon.tuBank.dto.BankUserDTO;
 import com.saimon.tuBank.entity.model.BankUser;
+import org.bson.types.ObjectId;
 
 public class SetUpTest {
 
     //BANK USER INFORMATIONS
-    public static String BANKUSER_ID = "ID";
+    public static String BANKUSER_ID = new ObjectId().toString();
     public static String BANKUSER_NAME = "Teste";
     public static String BANKUSER_LOGIN = "testeLogin";
     public static String BANKUSER_PASSWORD = "0123456";
@@ -30,8 +32,16 @@ public class SetUpTest {
     }
 
     public static BankUserDTO createDTO(){
-        return new BankUserDTO(BANKUSER_LOGIN,
+        return new BankUserDTO(BANKUSER_ID,
+                BANKUSER_NAME,
+                BANKUSER_LOGIN,
                 BANKUSER_PASSWORD,
+                BANKUSER_OLD,
+                BANKUSER_GENDER);
+    }
+
+    public static BankInformationsDTO createInformationsDTO(){
+        return new BankInformationsDTO(BANKUSER_ID,
                 BANKUSER_NAME,
                 BANKUSER_OLD,
                 BANKUSER_GENDER);

@@ -28,7 +28,7 @@ public class BankUserController {
     }
 
     @PutMapping("/{id}")
-    public BankUser updateUser(@PathVariable @Valid BankUserDTO bankUserDTO) throws Exception {
-        return bankUserService.updateUser(bankUserDTO);
+    public BankUser updateUser(@PathVariable String id, @RequestBody @Valid BankUserDTO bankUserDTO) throws Exception {
+        return bankUserService.updateUser(id, bankUserDTO);
     }
 }

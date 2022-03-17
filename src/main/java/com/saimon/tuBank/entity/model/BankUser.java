@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Min;
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -19,6 +20,8 @@ public class BankUser {
     private Integer old;
     private GENDER gender;
     private SCORE score;
+    private Date createdAt;
+    private Date updatedAt;
 
     public BankUser() {
 
@@ -30,6 +33,22 @@ public class BankUser {
         this.name = name;
         this.old = old;
         this.gender = gender;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public String getId() {

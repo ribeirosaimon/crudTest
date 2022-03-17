@@ -6,19 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankUserDTO {
-
+public class BankInformationsDTO {
     private String id;
     private String name;
-    private String login;
-    private String password;
-    @Min(18)
     private Integer old;
     private BankUser.GENDER gender;
 }
