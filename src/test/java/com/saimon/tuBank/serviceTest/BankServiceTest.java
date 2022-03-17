@@ -11,9 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -30,7 +30,7 @@ public class BankServiceTest {
     private BankUserRepository bankUserRepository;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         this.bankUserService = new BankUserServiceImpl(bankUserRepository);
     }
 
@@ -65,5 +65,26 @@ public class BankServiceTest {
         Assertions.assertThat(saveUSer.getName()).isEqualTo(SetUpTest.BANKUSER_NAME);
         Assertions.assertThat(saveUSer.getOld()).isEqualTo(SetUpTest.BANKUSER_OLD);
         Assertions.assertThat(saveUSer.getPassword()).isEqualTo(SetUpTest.BANKUSER_PASSWORD);
+    }
+
+    @Test
+    @DisplayName("Save BankUSer")
+    public void updatedUserTest() throws Exception {
+        Integer oldChanged = 20;
+        BankUser updatedUser = SetUpTest.createUser();
+        updatedUser.setOld(oldChanged);
+
+        BankUserDTO bankUserDTO = SetUpTest.createDTO();
+        bankUserDTO.setOld(oldChanged);
+
+        BDDMockito
+                .when(bankUserService.updateUser(Mockito.any(String.class), Mockito.any(BankUserDTO.class)))
+                .thenReturn(updatedUser);
+
+        Assertions.assertThat(updatedUser.getId()).isEqualTo(SetUpTest.BANKUSER_ID);
+        Assertions.assertThat(updatedUser.getGender()).isEqualTo(SetUpTest.BANKUSER_GENDER);
+        Assertions.assertThat(updatedUser.getName()).isEqualTo(SetUpTest.BANKUSER_NAME);
+        Assertions.assertThat(updatedUser.getOld()).isEqualTo(oldChanged);
+        Assertions.assertThat(updatedUser.getPassword()).isEqualTo(SetUpTest.BANKUSER_PASSWORD);
     }
 }

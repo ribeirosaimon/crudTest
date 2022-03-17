@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
@@ -60,7 +61,9 @@ public class BankRepositoryTest {
     @Test
     @DisplayName("Update BankUser")
     public void updateBankUserTest(){
-        bankUserRepository.save(bankUser);
+        bankUser.setOld(20);
+        BankUser save = bankUserRepository.save(bankUser);
         assertTrue(bankUserRepository.existsById(bankUser.getId()));
+        assertEquals(save.getOld(), 20);
     }
 }
