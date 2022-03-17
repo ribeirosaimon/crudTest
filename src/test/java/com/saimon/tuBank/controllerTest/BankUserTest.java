@@ -31,6 +31,7 @@ public class BankUserTest {
 
     @Autowired
     MockMvc mvc;
+
     @MockBean
     BankUserService bankUserService;
 
@@ -113,11 +114,10 @@ public class BankUserTest {
         BankInformationsDTO informationsDTO = SetUpTest.createInformationsDTO();
         informationsDTO.setOld(changeOldUser);
 
-
         String json = new ObjectMapper().writeValueAsString(createDto);
 
         BDDMockito
-                .given(bankUserService.updateUser(SetUpTest.BANKUSER_ID, createDto))
+                .given(bankUserService.updateUser(Mockito.any(String.class), Mockito.any(BankUserDTO.class)))
                 .willReturn(user);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -130,6 +130,6 @@ public class BankUserTest {
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("name").value(SetUpTest.BANKUSER_NAME))
-                .andExpect(MockMvcResultMatchers.jsonPath("old").value(SetUpTest.BANKUSER_OLD));
+                .andExpect(MockMvcResultMatchers.jsonPath("old").value(changeOldUser));
     }
 }

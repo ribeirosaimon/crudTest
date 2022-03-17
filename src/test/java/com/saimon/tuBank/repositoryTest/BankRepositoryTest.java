@@ -51,8 +51,15 @@ public class BankRepositoryTest {
     }
 
     @Test
-    @DisplayName("Save BankUser by DTO")
+    @DisplayName("Save BankUser")
     public void saveBankUserTest(){
+        bankUserRepository.save(bankUser);
+        assertTrue(bankUserRepository.existsById(bankUser.getId()));
+    }
+
+    @Test
+    @DisplayName("Update BankUser")
+    public void updateBankUserTest(){
         bankUserRepository.save(bankUser);
         assertTrue(bankUserRepository.existsById(bankUser.getId()));
     }
