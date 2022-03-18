@@ -6,6 +6,7 @@ import com.saimon.tuBank.dto.BankUserDTO;
 import com.saimon.tuBank.entity.model.BankUser;
 import com.saimon.tuBank.service.BankUserService;
 import com.saimon.tuBank.setUp.SetUpTest;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +28,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ActiveProfiles("test")
 @WebMvcTest
 @AutoConfigureMockMvc
-public class BankUserTest {
+public class BankControllerTest {
 
     @Autowired
     MockMvc mvc;
@@ -131,5 +132,33 @@ public class BankUserTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("name").value(SetUpTest.BANKUSER_NAME))
                 .andExpect(MockMvcResultMatchers.jsonPath("old").value(changeOldUser));
+    }
+
+    @Test
+    @DisplayName("Delete User")
+    public void deleteUser() throws Exception {
+        BDDMockito.doNothing()
+                .when(bankUserService.getUser(Mockito.any(String.class)));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .delete(SetUpTest.BANKUSER_API.concat("/") + SetUpTest.BANKUSER_ID);
+
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("Delete Not found User")
+    public void tryDeleteUser() throws Exception {
+        BDDMockito.doNothing()
+                .when(bankUserService.getUser(Mockito.any(String.class)));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .delete(SetUpTest.BANKUSER_API.concat("/") + new ObjectId());
+
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 }

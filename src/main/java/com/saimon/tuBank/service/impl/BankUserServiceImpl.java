@@ -51,4 +51,10 @@ public class BankUserServiceImpl implements BankUserService {
 
         return bankUserRepository.save(user);
     }
+
+    @Override
+    public void deleteUser(String id) throws Exception {
+        BankUser user = this.getUser(id);
+        bankUserRepository.delete(user);
+    }
 }

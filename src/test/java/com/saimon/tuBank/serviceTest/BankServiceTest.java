@@ -1,5 +1,6 @@
 package com.saimon.tuBank.serviceTest;
 
+import com.saimon.tuBank.dto.BankInformationsDTO;
 import com.saimon.tuBank.dto.BankUserDTO;
 import com.saimon.tuBank.entity.model.BankUser;
 import com.saimon.tuBank.entity.repository.BankUserRepository;
@@ -7,6 +8,7 @@ import com.saimon.tuBank.service.BankUserService;
 import com.saimon.tuBank.service.impl.BankUserServiceImpl;
 import com.saimon.tuBank.setUp.SetUpTest;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,10 +26,11 @@ import java.util.Optional;
 @ActiveProfiles("test")
 public class BankServiceTest {
 
-    private BankUserService bankUserService;
-
     @MockBean
     private BankUserRepository bankUserRepository;
+
+    private BankUserService bankUserService;
+
 
     @BeforeEach
     public void setUp() {
@@ -54,37 +57,16 @@ public class BankServiceTest {
     @Test
     @DisplayName("Save BankUSer")
     public void saveUserTest() throws Exception {
-        BankUser saveUSer = SetUpTest.createUser();
+        BankUser saveUser = SetUpTest.createUser();
 
         Mockito
                 .when(bankUserService.saveUser(SetUpTest.createDTO()))
-                .thenReturn(saveUSer);
+                .thenReturn(saveUser);
 
-        Assertions.assertThat(saveUSer.getId()).isEqualTo(SetUpTest.BANKUSER_ID);
-        Assertions.assertThat(saveUSer.getGender()).isEqualTo(SetUpTest.BANKUSER_GENDER);
-        Assertions.assertThat(saveUSer.getName()).isEqualTo(SetUpTest.BANKUSER_NAME);
-        Assertions.assertThat(saveUSer.getOld()).isEqualTo(SetUpTest.BANKUSER_OLD);
-        Assertions.assertThat(saveUSer.getPassword()).isEqualTo(SetUpTest.BANKUSER_PASSWORD);
-    }
-
-    @Test
-    @DisplayName("Save BankUSer")
-    public void updatedUserTest() throws Exception {
-        Integer oldChanged = 20;
-        BankUser updatedUser = SetUpTest.createUser();
-        updatedUser.setOld(oldChanged);
-
-        BankUserDTO bankUserDTO = SetUpTest.createDTO();
-        bankUserDTO.setOld(oldChanged);
-
-        BDDMockito
-                .when(bankUserService.updateUser(Mockito.any(String.class), Mockito.any(BankUserDTO.class)))
-                .thenReturn(updatedUser);
-
-        Assertions.assertThat(updatedUser.getId()).isEqualTo(SetUpTest.BANKUSER_ID);
-        Assertions.assertThat(updatedUser.getGender()).isEqualTo(SetUpTest.BANKUSER_GENDER);
-        Assertions.assertThat(updatedUser.getName()).isEqualTo(SetUpTest.BANKUSER_NAME);
-        Assertions.assertThat(updatedUser.getOld()).isEqualTo(oldChanged);
-        Assertions.assertThat(updatedUser.getPassword()).isEqualTo(SetUpTest.BANKUSER_PASSWORD);
+        Assertions.assertThat(saveUser.getId()).isEqualTo(SetUpTest.BANKUSER_ID);
+        Assertions.assertThat(saveUser.getGender()).isEqualTo(SetUpTest.BANKUSER_GENDER);
+        Assertions.assertThat(saveUser.getName()).isEqualTo(SetUpTest.BANKUSER_NAME);
+        Assertions.assertThat(saveUser.getOld()).isEqualTo(SetUpTest.BANKUSER_OLD);
+        Assertions.assertThat(saveUser.getPassword()).isEqualTo(SetUpTest.BANKUSER_PASSWORD);
     }
 }

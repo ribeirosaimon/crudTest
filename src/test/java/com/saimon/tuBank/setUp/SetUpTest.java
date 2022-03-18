@@ -46,4 +46,13 @@ public class SetUpTest {
                 BANKUSER_OLD,
                 BANKUSER_GENDER);
     }
+
+    public static BankUserDTO changeToDto(BankUser bankUser){
+        return new BankUserDTO(bankUser.getId(),
+                bankUser.getName(),
+                bankUser.getLogin(),
+                bankUser.getPassword(),
+                bankUser.getOld(),
+                bankUser.getGender());
+    }
 }

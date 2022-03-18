@@ -3,6 +3,7 @@ package com.saimon.tuBank.controller;
 import com.saimon.tuBank.dto.BankUserDTO;
 import com.saimon.tuBank.entity.model.BankUser;
 import com.saimon.tuBank.service.BankUserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,5 +31,11 @@ public class BankUserController {
     @PutMapping("/{id}")
     public BankUser updateUser(@PathVariable String id, @RequestBody @Valid BankUserDTO bankUserDTO) throws Exception {
         return bankUserService.updateUser(id, bankUserDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteUSer(@PathVariable String id) throws Exception {
+        bankUserService.deleteUser(id);
+        return ResponseEntity.ok().build();
     }
 }
