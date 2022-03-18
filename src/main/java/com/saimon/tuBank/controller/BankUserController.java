@@ -1,5 +1,6 @@
 package com.saimon.tuBank.controller;
 
+import com.saimon.tuBank.dto.BankInformationsDTO;
 import com.saimon.tuBank.dto.BankUserDTO;
 import com.saimon.tuBank.entity.model.BankUser;
 import com.saimon.tuBank.service.BankUserService;
@@ -23,7 +24,7 @@ public class BankUserController {
     }
 
     @PostMapping("/add")
-    public BankUser saveUser(@RequestBody @Valid BankUserDTO bankUserDTO) throws Exception {
+    public BankInformationsDTO saveUser(@RequestBody @Valid BankUserDTO bankUserDTO) throws Exception {
         return bankUserService.saveUser(bankUserDTO);
     }
 

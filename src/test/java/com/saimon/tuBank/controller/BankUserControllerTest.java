@@ -1,0 +1,107 @@
+package com.saimon.tuBank.controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.saimon.tuBank.dto.BankInformationsDTO;
+import com.saimon.tuBank.dto.BankUserDTO;
+import com.saimon.tuBank.entity.model.BankUser;
+import com.saimon.tuBank.service.BankUserService;
+import com.saimon.tuBank.util.Creator;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
+import org.mockito.BDDMockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+@ExtendWith(SpringExtension.class)
+@DisplayName("User Controller Test")
+@WebMvcTest
+@AutoConfigureMockMvc
+class BankUserControllerTest {
+
+    @Autowired
+    MockMvc mvc;
+
+    @MockBean
+    BankUserService service;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        BankUser user = Creator.user();
+        BankInformationsDTO informationsDTO = Creator.InfoUserDto();
+
+        BankUser updatedUser = Creator.user();
+        updatedUser.setOld(Creator.UPDATED_OLD);
+
+        BDDMockito.given(service.getUser(ArgumentMatchers.any())).willReturn(user);
+        BDDMockito.given(service.saveUser(ArgumentMatchers.any())).willReturn(informationsDTO);
+        BDDMockito.given(service.updateUser(ArgumentMatchers.any(), ArgumentMatchers.any())).willReturn(updatedUser);
+    }
+
+    @AfterEach
+    void tearDown() {
+    }
+
+    @Test
+    @DisplayName("Get user Controller")
+    void getUser() throws Exception {
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get(Creator.BANKUSER_API.concat("/" + Creator.BANKUSER_ID))
+                .accept(MediaType.APPLICATION_JSON);
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("id").value(Creator.BANKUSER_ID))
+                .andExpect(MockMvcResultMatchers.jsonPath("name").value(Creator.BANKUSER_NAME))
+                .andExpect(MockMvcResultMatchers.jsonPath("old").value(Creator.BANKUSER_OLD));
+    }
+
+    @Test
+    @DisplayName("Save user Controller")
+    void saveUser() throws Exception {
+        String json = new ObjectMapper().writeValueAsString(Creator.userDto());
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(Creator.BANKUSER_API.concat("/add"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("id").value(Creator.BANKUSER_ID))
+                .andExpect(MockMvcResultMatchers.jsonPath("name").value(Creator.BANKUSER_NAME))
+                .andExpect(MockMvcResultMatchers.jsonPath("old").value(Creator.BANKUSER_OLD));
+    }
+
+    @Test
+    @DisplayName("Exception Save user Controller")
+    void exceptionUpdateUser() throws Exception {
+        BankUserDTO dtoError = Creator.userDto();
+        dtoError.setOld(Creator.EXCEPTION_OLD);
+
+        String json = new ObjectMapper().writeValueAsString(dtoError);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(Creator.BANKUSER_API.concat("/add"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+}

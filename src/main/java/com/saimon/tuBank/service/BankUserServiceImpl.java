@@ -1,5 +1,6 @@
-package com.saimon.tuBank.service.impl;
+package com.saimon.tuBank.service;
 
+import com.saimon.tuBank.dto.BankInformationsDTO;
 import com.saimon.tuBank.dto.BankUserDTO;
 import com.saimon.tuBank.entity.model.BankUser;
 import com.saimon.tuBank.entity.repository.BankUserRepository;
@@ -23,7 +24,7 @@ public class BankUserServiceImpl implements BankUserService {
     }
 
     @Override
-    public BankUser saveUser(BankUserDTO bankUserDTO) throws Exception {
+    public BankInformationsDTO saveUser(BankUserDTO bankUserDTO) throws Exception {
         BankUser bankUser = new BankUser(bankUserDTO.getLogin(),
                 bankUserDTO.getPassword(),
                 bankUserDTO.getName(),
@@ -38,7 +39,8 @@ public class BankUserServiceImpl implements BankUserService {
             bankUser.setScore(BankUser.SCORE.GREAT);
         }
 
-        return bankUserRepository.save(bankUser);
+        BankUser savedUser = bankUserRepository.save(bankUser);
+        return new BankInformationsDTO(savedUser.getId(), savedUser.getName(), savedUser.getOld(), savedUser.getGender());
     }
 
     @Override
