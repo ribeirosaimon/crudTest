@@ -8,4 +8,5 @@ public interface BankUserService {
     BankUser getUser(String id) throws Exception;
     BankInformationsDTO saveUser(BankUserDTO bankUserDTO) throws Exception;
     BankUser updateUser(String id, BankUserDTO bankUserDTO) throws Exception;
+    void deleteUser(String id) throws Exception;
 }

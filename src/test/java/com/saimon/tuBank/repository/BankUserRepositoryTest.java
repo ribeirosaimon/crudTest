@@ -32,24 +32,31 @@ public class BankUserRepositoryTest {
 
     @Test
     @DisplayName("Get BankUser by Id")
-    public void getBankUserById() {
+    public void getUser_Successful() {
         bankUserRepository.insert(bankUser);
         Assertions.assertTrue(bankUserRepository.existsById(bankUser.getId()));
     }
 
     @Test
     @DisplayName("Save BankUser")
-    public void saveBankUserTest() {
+    public void saveUser_Successful() {
         bankUserRepository.save(bankUser);
         Assertions.assertTrue(bankUserRepository.existsById(bankUser.getId()));
     }
 
     @Test
     @DisplayName("Update BankUser")
-    public void updateBankUserTest() {
+    public void updateUser_Successful() {
         bankUser.setOld(20);
         BankUser save = bankUserRepository.save(bankUser);
         Assertions.assertTrue(bankUserRepository.existsById(bankUser.getId()));
         Assertions.assertEquals(save.getOld(), Creator.UPDATED_OLD);
+    }
+
+    @Test
+    @DisplayName("Delete BankUser")
+    public void deleteUser_ExceptionOldlessThen() {
+        bankUserRepository.delete(bankUser);
+        Assertions.assertTrue(!bankUserRepository.existsById(bankUser.getId()));
     }
 }

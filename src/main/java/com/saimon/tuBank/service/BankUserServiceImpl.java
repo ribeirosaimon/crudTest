@@ -4,7 +4,6 @@ import com.saimon.tuBank.dto.BankInformationsDTO;
 import com.saimon.tuBank.dto.BankUserDTO;
 import com.saimon.tuBank.entity.model.BankUser;
 import com.saimon.tuBank.entity.repository.BankUserRepository;
-import com.saimon.tuBank.service.BankUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -52,5 +51,11 @@ public class BankUserServiceImpl implements BankUserService {
         user.setUpdatedAt(new Date());
 
         return bankUserRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(String id) throws Exception {
+        BankUser user = this.getUser(id);
+        bankUserRepository.delete(user);
     }
 }

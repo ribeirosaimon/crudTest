@@ -6,6 +6,7 @@ import com.saimon.tuBank.dto.BankUserDTO;
 import com.saimon.tuBank.entity.model.BankUser;
 import com.saimon.tuBank.service.BankUserService;
 import com.saimon.tuBank.util.Creator;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -47,6 +48,7 @@ class BankUserControllerTest {
         BDDMockito.given(service.getUser(ArgumentMatchers.any())).willReturn(user);
         BDDMockito.given(service.saveUser(ArgumentMatchers.any())).willReturn(informationsDTO);
         BDDMockito.given(service.updateUser(ArgumentMatchers.any(), ArgumentMatchers.any())).willReturn(updatedUser);
+        BDDMockito.doNothing().when(service).deleteUser(ArgumentMatchers.anyString());
     }
 
     @AfterEach
@@ -55,7 +57,7 @@ class BankUserControllerTest {
 
     @Test
     @DisplayName("Get user Controller")
-    void getUser() throws Exception {
+    void getUser_Successful() throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .get(Creator.BANKUSER_API.concat("/" + Creator.BANKUSER_ID))
                 .accept(MediaType.APPLICATION_JSON);
@@ -69,7 +71,7 @@ class BankUserControllerTest {
 
     @Test
     @DisplayName("Save user Controller")
-    void saveUser() throws Exception {
+    void saveUser_Successful() throws Exception {
         String json = new ObjectMapper().writeValueAsString(Creator.userDto());
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -80,7 +82,7 @@ class BankUserControllerTest {
 
         mvc
                 .perform(request)
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value(Creator.BANKUSER_ID))
                 .andExpect(MockMvcResultMatchers.jsonPath("name").value(Creator.BANKUSER_NAME))
                 .andExpect(MockMvcResultMatchers.jsonPath("old").value(Creator.BANKUSER_OLD));
@@ -88,17 +90,41 @@ class BankUserControllerTest {
 
     @Test
     @DisplayName("Exception Save user Controller")
-    void exceptionUpdateUser() throws Exception {
+    void updateUser_Exception() throws Exception {
         BankUserDTO dtoError = Creator.userDto();
         dtoError.setOld(Creator.EXCEPTION_OLD);
 
         String json = new ObjectMapper().writeValueAsString(dtoError);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .post(Creator.BANKUSER_API.concat("/add"))
+                .put(Creator.BANKUSER_API.concat("/"+Creator.BANKUSER_ID))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(json);
+
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Delete User")
+    void deleteUser_Successful() throws Exception {
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .delete(Creator.BANKUSER_API.concat("/" + Creator.BANKUSER_ID));
+
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Delete Exception User not found")
+    void deleteUser_Exceptions() throws Exception {
+        BDDMockito.doThrow(Exception.class).when(service).deleteUser(ArgumentMatchers.anyString());
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .delete(Creator.BANKUSER_API.concat("/" + new ObjectId()));
 
         mvc
                 .perform(request)
