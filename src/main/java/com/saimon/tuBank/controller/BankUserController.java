@@ -50,10 +50,5 @@ public class BankUserController {
         bankUserService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteUSer(@PathVariable String id) throws Exception {
-        bankUserService.deleteUser(id);
-        return ResponseEntity.ok().build();
-    }
+    
 }
