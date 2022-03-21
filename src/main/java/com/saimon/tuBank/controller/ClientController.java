@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/bankuser")
+@RequestMapping("/api/client")
 public class ClientController {
 
     private final ClientService clientService;
@@ -22,8 +22,9 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public Client getUser(@PathVariable String id) throws Exception {
-        return clientService.getUser(id);
+    public ResponseEntity getUser(@PathVariable String id) throws Exception {
+        Client user = clientService.getUser(id);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/add")

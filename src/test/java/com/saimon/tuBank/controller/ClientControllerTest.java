@@ -1,8 +1,8 @@
 package com.saimon.tuBank.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.saimon.tuBank.dto.ClientInformationsDto;
 import com.saimon.tuBank.dto.ClientDto;
+import com.saimon.tuBank.dto.ClientInformationsDto;
 import com.saimon.tuBank.entity.model.Client;
 import com.saimon.tuBank.service.ClientService;
 import com.saimon.tuBank.util.Creator;
@@ -15,8 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -29,8 +27,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @ExtendWith(SpringExtension.class)
 @DisplayName("User Controller Test")
-@WebMvcTest
-@AutoConfigureMockMvc(addFilters = false)
+@WebMvcTest(ClientController.class)
+@AutoConfigureMockMvc
 class ClientControllerTest {
 
     @Autowired
@@ -99,7 +97,7 @@ class ClientControllerTest {
         String json = new ObjectMapper().writeValueAsString(dtoError);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .put(Creator.BANKUSER_API.concat("/"+Creator.BANKUSER_ID))
+                .put(Creator.BANKUSER_API.concat("/" + Creator.BANKUSER_ID))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(json);

@@ -19,7 +19,7 @@ public class Creator {
     public static Client.SCORE BANKUSER_SCORE = Client.SCORE.EXCELLENT;
 
     //API URLS
-    public static String BANKUSER_API = "/api/bankuser";
+    public static String BANKUSER_API = "/api/client";
 
     //MENSSAGES ERRORS
     public static String OLD_ERROR_MESSAGE = "You are not old enough to open an account";
