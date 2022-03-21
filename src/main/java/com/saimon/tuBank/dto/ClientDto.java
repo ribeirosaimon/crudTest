@@ -1,6 +1,6 @@
 package com.saimon.tuBank.dto;
 
-import com.saimon.tuBank.entity.model.BankUser;
+import com.saimon.tuBank.entity.model.Client;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import javax.validation.constraints.Min;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankUserDTO {
+public class ClientDto {
 
     private String id;
     private String name;
@@ -20,5 +20,5 @@ public class BankUserDTO {
     private String password;
     @Min(18)
     private Integer old;
-    private BankUser.GENDER gender;
+    private Client.GENDER gender;
 }

@@ -9,7 +9,7 @@ import java.util.Objects;
 
 
 @Document
-public class BankUser {
+public class Client {
 
     @Id
     private String id;
@@ -23,11 +23,11 @@ public class BankUser {
     private Date createdAt;
     private Date updatedAt;
 
-    public BankUser() {
+    public Client() {
 
     }
 
-    public BankUser(String login, String password, String name, Integer old, GENDER gender) {
+    public Client(String login, String password, String name, Integer old, GENDER gender) {
         this.login = login;
         this.password = password;
         this.name = name;
@@ -116,9 +116,9 @@ public class BankUser {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BankUser)) return false;
-        BankUser bankUser = (BankUser) o;
-        return Objects.equals(getId(), bankUser.getId()) && Objects.equals(getLogin(), bankUser.getLogin()) && Objects.equals(getPassword(), bankUser.getPassword()) && Objects.equals(getName(), bankUser.getName()) && Objects.equals(getOld(), bankUser.getOld()) && getGender() == bankUser.getGender() && getScore() == bankUser.getScore();
+        if (!(o instanceof Client)) return false;
+        Client client = (Client) o;
+        return Objects.equals(getId(), client.getId()) && Objects.equals(getLogin(), client.getLogin()) && Objects.equals(getPassword(), client.getPassword()) && Objects.equals(getName(), client.getName()) && Objects.equals(getOld(), client.getOld()) && getGender() == client.getGender() && getScore() == client.getScore();
     }
 
     @Override

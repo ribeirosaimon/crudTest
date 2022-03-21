@@ -1,8 +1,8 @@
 package com.saimon.tuBank.util;
 
-import com.saimon.tuBank.dto.BankInformationsDTO;
-import com.saimon.tuBank.dto.BankUserDTO;
-import com.saimon.tuBank.entity.model.BankUser;
+import com.saimon.tuBank.dto.ClientInformationsDto;
+import com.saimon.tuBank.dto.ClientDto;
+import com.saimon.tuBank.entity.model.Client;
 import org.bson.types.ObjectId;
 
 public class Creator {
@@ -15,8 +15,8 @@ public class Creator {
     public static Integer BANKUSER_OLD = 18;
     public static Integer UPDATED_OLD = 20;
     public static Integer EXCEPTION_OLD = 15;
-    public static BankUser.GENDER BANKUSER_GENDER = BankUser.GENDER.MALE;
-    public static BankUser.SCORE BANKUSER_SCORE = BankUser.SCORE.EXCELLENT;
+    public static Client.GENDER BANKUSER_GENDER = Client.GENDER.MALE;
+    public static Client.SCORE BANKUSER_SCORE = Client.SCORE.EXCELLENT;
 
     //API URLS
     public static String BANKUSER_API = "/api/bankuser";
@@ -25,16 +25,16 @@ public class Creator {
     public static String OLD_ERROR_MESSAGE = "You are not old enough to open an account";
 
 
-    public static BankUser user() {
-        BankUser bankUser = new BankUser(BANKUSER_LOGIN, BANKUSER_PASSWORD, BANKUSER_NAME, BANKUSER_OLD, BANKUSER_GENDER);
-        bankUser.setId(BANKUSER_ID);
-        bankUser.setGender(BANKUSER_GENDER);
-        bankUser.setScore(BANKUSER_SCORE);
-        return bankUser;
+    public static Client user() {
+        Client client = new Client(BANKUSER_LOGIN, BANKUSER_PASSWORD, BANKUSER_NAME, BANKUSER_OLD, BANKUSER_GENDER);
+        client.setId(BANKUSER_ID);
+        client.setGender(BANKUSER_GENDER);
+        client.setScore(BANKUSER_SCORE);
+        return client;
     }
 
-    public static BankUserDTO userDto() {
-        return new BankUserDTO(BANKUSER_ID,
+    public static ClientDto userDto() {
+        return new ClientDto(BANKUSER_ID,
                 BANKUSER_NAME,
                 BANKUSER_LOGIN,
                 BANKUSER_PASSWORD,
@@ -42,19 +42,19 @@ public class Creator {
                 BANKUSER_GENDER);
     }
 
-    public static BankInformationsDTO InfoUserDto() {
-        return new BankInformationsDTO(BANKUSER_ID,
+    public static ClientInformationsDto InfoUserDto() {
+        return new ClientInformationsDto(BANKUSER_ID,
                 BANKUSER_NAME,
                 BANKUSER_OLD,
                 BANKUSER_GENDER);
     }
 
-    public static BankUserDTO changeToDto(BankUser bankUser){
-        return new BankUserDTO(bankUser.getId(),
-                bankUser.getName(),
-                bankUser.getLogin(),
-                bankUser.getPassword(),
-                bankUser.getOld(),
-                bankUser.getGender());
+    public static ClientDto changeToDto(Client client){
+        return new ClientDto(client.getId(),
+                client.getName(),
+                client.getLogin(),
+                client.getPassword(),
+                client.getOld(),
+                client.getGender());
     }
 }

@@ -1,8 +1,7 @@
 package com.saimon.tuBank.service;
 
-import com.saimon.tuBank.dto.BankInformationsDTO;
-import com.saimon.tuBank.dto.BankUserDTO;
-import com.saimon.tuBank.entity.model.BankUser;
+import com.saimon.tuBank.dto.ClientInformationsDto;
+import com.saimon.tuBank.entity.model.Client;
 import com.saimon.tuBank.util.Creator;
 import org.assertj.core.api.Assertions;
 import org.bson.types.ObjectId;
@@ -14,22 +13,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @DisplayName("User Service Test")
-class BankUserServiceImplTest {
+class ClientServiceImplTest {
 
     @Mock
-    private BankUserService service;
+    private ClientService service;
 
     @BeforeEach
     void setUp() throws Exception {
-        BankUser user = Creator.user();
-        BankInformationsDTO informationsDTO = Creator.InfoUserDto();
+        Client user = Creator.user();
+        ClientInformationsDto informationsDTO = Creator.InfoUserDto();
 
-        BankUser updatedUser = Creator.user();
+        Client updatedUser = Creator.user();
         updatedUser.setOld(Creator.UPDATED_OLD);
 
         BDDMockito.when(service.getUser(ArgumentMatchers.any())).thenReturn(user);
@@ -45,14 +43,14 @@ class BankUserServiceImplTest {
     @Test
     @DisplayName("Get user service")
     void getUser_Successful() throws Exception {
-        BankUser user = service.getUser(null);
+        Client user = service.getUser(null);
         Assertions.assertThat(user.getId()).isEqualTo(Creator.BANKUSER_ID);
     }
 
     @Test
     @DisplayName("Save user service")
     void saveUser_Successful() throws Exception {
-        BankInformationsDTO informationsDTO = service.saveUser(null);
+        ClientInformationsDto informationsDTO = service.saveUser(null);
 
         Assertions.assertThat(informationsDTO.getId()).isEqualTo(Creator.BANKUSER_ID);
         Assertions.assertThat(informationsDTO.getName()).isEqualTo(Creator.BANKUSER_NAME);
@@ -63,11 +61,11 @@ class BankUserServiceImplTest {
     @DisplayName("update User service")
     void updateUser_Successful() throws Exception {
 
-        BankUser bankUser = service.updateUser(Creator.BANKUSER_ID, null);
+        Client client = service.updateUser(Creator.BANKUSER_ID, null);
 
-        Assertions.assertThat(bankUser.getId()).isEqualTo(Creator.BANKUSER_ID);
-        Assertions.assertThat(bankUser.getName()).isEqualTo(Creator.BANKUSER_NAME);
-        Assertions.assertThat(bankUser.getOld()).isEqualTo(Creator.UPDATED_OLD);
+        Assertions.assertThat(client.getId()).isEqualTo(Creator.BANKUSER_ID);
+        Assertions.assertThat(client.getName()).isEqualTo(Creator.BANKUSER_NAME);
+        Assertions.assertThat(client.getOld()).isEqualTo(Creator.UPDATED_OLD);
     }
 
     @Test
