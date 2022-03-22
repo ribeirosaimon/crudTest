@@ -18,6 +18,7 @@ public class Client {
     private String name;
     @Min(18)
     private Integer old;
+    private CreditCard creditCard;
     private GENDER gender;
     private SCORE score;
     private Date createdAt;
@@ -33,6 +34,10 @@ public class Client {
         this.name = name;
         this.old = old;
         this.gender = gender;
+    }
+
+    public CreditCard getCreditCard() {
+        return creditCard;
     }
 
     public Date getCreatedAt() {
@@ -118,12 +123,12 @@ public class Client {
         if (this == o) return true;
         if (!(o instanceof Client)) return false;
         Client client = (Client) o;
-        return Objects.equals(getId(), client.getId()) && Objects.equals(getLogin(), client.getLogin()) && Objects.equals(getPassword(), client.getPassword()) && Objects.equals(getName(), client.getName()) && Objects.equals(getOld(), client.getOld()) && getGender() == client.getGender() && getScore() == client.getScore();
+        return Objects.equals(getId(), client.getId()) && Objects.equals(getLogin(), client.getLogin()) && Objects.equals(getPassword(), client.getPassword()) && Objects.equals(getName(), client.getName()) && Objects.equals(getOld(), client.getOld()) && Objects.equals(getCreditCard(), client.getCreditCard()) && getGender() == client.getGender() && getScore() == client.getScore() && Objects.equals(getCreatedAt(), client.getCreatedAt()) && Objects.equals(getUpdatedAt(), client.getUpdatedAt());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getPassword(), getName(), getOld(), getGender(), getScore());
+        return Objects.hash(getId(), getLogin(), getPassword(), getName(), getOld(), getCreditCard(), getGender(), getScore(), getCreatedAt(), getUpdatedAt());
     }
 
     public enum SCORE {

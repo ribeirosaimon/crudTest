@@ -1,7 +1,7 @@
 package com.saimon.tuBank.controller;
 
-import com.saimon.tuBank.dto.ClientInformationsDto;
 import com.saimon.tuBank.dto.ClientDto;
+import com.saimon.tuBank.dto.ClientInformationsDto;
 import com.saimon.tuBank.entity.model.Client;
 import com.saimon.tuBank.service.ClientService;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +51,5 @@ public class ClientController {
         clientService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-    
+
 }
