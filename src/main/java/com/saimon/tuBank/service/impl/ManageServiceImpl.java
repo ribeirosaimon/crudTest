@@ -35,5 +35,6 @@ public class ManageServiceImpl implements ManagerService {
         Client client = clientService.getUser(clientId);
         CreditCard creditCard = new CreditCard(manager.getAgency(), client);
         creditCard.set
+                precisa adicionar o giveCard, adicionar a regra de negocio para dar o credito
     }
 }
